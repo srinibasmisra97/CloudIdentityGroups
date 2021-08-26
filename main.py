@@ -38,12 +38,8 @@ def create_service():
 
 def filter(filterString, groupsResponse):
     groups = []
-    group = {
-        "id": "",
-        "email": "",
-        "name": ""
-    }
     for g in groupsResponse:
+        group = {}
         if g['groupKey']['id'].startswith(filterString):
             group['id'] = g['name']
             group['email'] = g['groupKey']['id']
@@ -61,6 +57,8 @@ def list(request):
     
     service = create_service()
     search_response = search_google_groups(service=service, customer_id=CUSTOMER_ID)
+    print("Filter string: {}".format(FILTER_STRING))
+    print(search_response)
     groups = filter(FILTER_STRING, search_response['groups'])
     return jsonify({
         'groups': groups,
